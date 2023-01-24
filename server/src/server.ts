@@ -1,4 +1,4 @@
-import { CreatePoolHandler } from './request'
+import { CreatePollHandler } from './request'
 import cors from '@fastify/cors'
 import { z } from 'zod'
 import Fastify from "fastify";
@@ -26,20 +26,20 @@ async function bootstrap() {
   })
 
 
-  fastify.get('/pools/count', async (req, res) => {
-    const count = await prisma.pool.count();
+  fastify.get('/poll/count', async (req, res) => {
+    const count = await prisma.poll.count();
 
     return { count }
   })
 
-  fastify.post('/pools', async (req, res) => {
+  fastify.post('/poll', async (req, res) => {
     try {
-      const createPoolBody = z.object({
+      const createPollBody = z.object({
         title: z.string(),
       })
 
-      const { title } = createPoolBody.parse(req.body)
-      const response = await new CreatePoolHandler().createPool({ title })
+      const { title } = createPollBody.parse(req.body)
+      const response = await new CreatePollHandler().createPoll({ title })
 
       res.status(201).send(response)
     } catch (error: any) {

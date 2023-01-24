@@ -1,6 +1,6 @@
-import { CreatePoolHandler } from './createPool/createPoolHandler'
+import { CreatePollHandler } from './createPoll/createPollHandler'
 
 
 export {
-  CreatePoolHandler
+  CreatePollHandler
 }

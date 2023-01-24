@@ -1,25 +1,25 @@
-import { Pool } from '@prisma/client'
+import { Poll } from '@prisma/client'
 import ShortUniqueId from 'short-unique-id'
 import prisma from '../../lib/prisma'
 
 const generator = new ShortUniqueId({ length: 6 })
 
-export interface CreatePoolRequest {
+export interface CreatePollRequest {
   title: string
 }
 
-export class CreatePoolHandler {
+export class CreatePollHandler {
 
-  public async createPool(body: CreatePoolRequest): Promise<Pool> {
+  public async createPoll(body: CreatePollRequest): Promise<Poll> {
     try {
-      const pool = await prisma.pool.create({
+      const poll = await prisma.poll.create({
         data: {
           title: String(body.title),
           code: String(generator()).toUpperCase()
         }
       })
 
-      return pool
+      return poll
     } catch (err: any) {
       throw new Error(err.message)
     }
