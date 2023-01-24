@@ -1,6 +1,6 @@
 import { Poll } from '@prisma/client'
 import ShortUniqueId from 'short-unique-id'
-import prisma from '../../lib/prisma'
+import prisma from '../../../lib/prisma'
 
 const generator = new ShortUniqueId({ length: 6 })
 

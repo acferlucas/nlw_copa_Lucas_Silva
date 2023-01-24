@@ -1,6 +1,11 @@
-import { CreatePollHandler } from './createPoll/createPollHandler'
+import { CreatePollHandler, GetPollCountHandler } from './poll'
+import { GetUsersCountHandler } from './user'
+import { GetGuessesCountHandler } from './guess'
 
 
 export {
-  CreatePollHandler
+  CreatePollHandler,
+  GetPollCountHandler,
+  GetUsersCountHandler,
+  GetGuessesCountHandler
 }
