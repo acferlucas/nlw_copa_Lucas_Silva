@@ -1,8 +1,14 @@
+import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import cors from '@fastify/cors'
 import Fastify from "fastify";
-import { guessesRoutes, pollRoutes, userRoutes } from './routes'
+import fastifyJwt from '@fastify/jwt';
+import { guessesRoutes, pollRoutes, userRoutes, authRoute } from './routes'
+
+dotenv.config()
+
 
 async function bootstrap() {
+
   const fastify = Fastify({
     logger: true,
   });
@@ -11,9 +17,14 @@ async function bootstrap() {
     origin: true,
   })
 
+  await fastify.register(fastifyJwt, {
+    secret: process.env.ACCESS_TOKEN_SECRET || "JwTokenSecret"
+  })
+
   await fastify.register(guessesRoutes);
   await fastify.register(pollRoutes);
   await fastify.register(userRoutes);
+  await fastify.register(authRoute);
 
 
   await fastify.listen({

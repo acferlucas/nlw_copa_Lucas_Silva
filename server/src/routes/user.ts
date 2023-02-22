@@ -6,7 +6,7 @@ export async function userRoutes(fastify: FastifyInstance) {
     try {
       const count = await new GetUsersCountHandler().getUsersCount();
 
-      return count
+      return { count }
     } catch (error: any) {
       console.log(error)
       res.status(500).send(error.message)

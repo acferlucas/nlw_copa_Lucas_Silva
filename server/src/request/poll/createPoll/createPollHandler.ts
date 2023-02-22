@@ -6,6 +6,7 @@ const generator = new ShortUniqueId({ length: 6 })
 
 export interface CreatePollRequest {
   title: string
+  ownerId: string
 }
 
 export class CreatePollHandler {
@@ -14,13 +15,21 @@ export class CreatePollHandler {
     try {
       const poll = await prisma.poll.create({
         data: {
-          title: String(body.title),
-          code: String(generator()).toUpperCase()
+          title: body.title,
+          code: generator().toUpperCase(),
+          ownerId: body.ownerId,
+
+          participants: {
+            create: {
+              userId: body.ownerId
+            }
+          }
         }
       })
 
       return poll
     } catch (err: any) {
+      console.log(err)
       throw new Error(err.message)
     }
   }

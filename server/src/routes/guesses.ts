@@ -6,7 +6,7 @@ export async function guessesRoutes(fastify: FastifyInstance) {
     try {
       const count = await new GetGuessesCountHandler().getGuessesCount();
 
-      return count;
+      return { count };
     } catch (error: any) {
       console.log(error)
       res.status(500).send(error.message)
