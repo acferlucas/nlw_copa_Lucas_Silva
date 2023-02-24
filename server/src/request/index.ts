@@ -1,4 +1,4 @@
-import { CreatePollHandler, GetPollCountHandler, JoinPollHandler } from './poll'
+import { CreatePollHandler, GetPollCountHandler, JoinPollHandler, GetPollsHandler, GetPollHandler } from './poll'
 import { GetUsersCountHandler } from './user'
 import { GetGuessesCountHandler } from './guess'
 
@@ -8,5 +8,7 @@ export {
   GetPollCountHandler,
   GetUsersCountHandler,
   GetGuessesCountHandler,
-  JoinPollHandler
+  JoinPollHandler,
+  GetPollsHandler,
+  GetPollHandler
 }

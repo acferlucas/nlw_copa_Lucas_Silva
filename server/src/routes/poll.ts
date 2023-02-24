@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { authenticate } from "../plugins/authenticate";
-import { CreatePollHandler, GetPollCountHandler, JoinPollHandler } from "../request";
+import { CreatePollHandler, GetPollCountHandler, JoinPollHandler, GetPollsHandler, GetPollHandler } from "../request";
 
 export async function pollRoutes(fastify: FastifyInstance) {
   fastify.get('/poll/count', async (req, res) => {
@@ -35,10 +35,11 @@ export async function pollRoutes(fastify: FastifyInstance) {
       }
     });
 
-  fastify.post('polls/:id/join', {
+  fastify.post('/polls/join', {
     onRequest: [authenticate]
   }, async (req, res) => {
     try {
+
       const joinPollBody = z.object({
         code: z.string(),
       })
@@ -49,6 +50,37 @@ export async function pollRoutes(fastify: FastifyInstance) {
 
       res.status(201).send({ data })
 
+
+    } catch (err) {
+      res.status(400).send(err)
+    }
+  })
+
+  fastify.get('/polls', {
+    onRequest: [authenticate]
+  }, async (req, res) => {
+    try {
+      const data = await new GetPollsHandler().getPollsHandler(req.user.sub);
+
+      res.status(200).send({ polls: data })
+    } catch (err) {
+      res.status(400).send(err)
+    }
+  })
+
+  fastify.get('/poll/:id', {
+    onRequest: [authenticate]
+  }, async (req, res) => {
+    try {
+      const getPollParams = z.object({
+        id: z.string()
+      })
+
+      const { id } = getPollParams.parse(req.params)
+
+      const data = await new GetPollHandler().getPollHandler(id);
+
+      res.status(200).send({ poll: data })
 
     } catch (err) {
       res.status(400).send(err)
