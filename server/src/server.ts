@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-d
 import cors from '@fastify/cors'
 import Fastify from "fastify";
 import fastifyJwt from '@fastify/jwt';
-import { guessesRoutes, pollRoutes, userRoutes, authRoute } from './routes'
+import { guessesRoutes, pollRoutes, userRoutes, authRoute, gameRoutes } from './routes'
 
 dotenv.config()
 
@@ -23,6 +23,7 @@ async function bootstrap() {
 
   await fastify.register(guessesRoutes);
   await fastify.register(pollRoutes);
+  await fastify.register(gameRoutes);
   await fastify.register(userRoutes);
   await fastify.register(authRoute);
 
