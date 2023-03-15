@@ -9,6 +9,7 @@ import usersAvatarExampleImg from '../assets/avatares.png'
 
 import { api } from '../lib/axios'
 import { CountCard, AuthenticationModal } from '../components'
+import { useRouter } from 'next/router';
 
 interface HomeProps {
   poolCount: number
@@ -19,10 +20,15 @@ interface HomeProps {
 export default function Home({ poolCount, guessCount, userCount }:HomeProps) {
   const [poolTitle, setPoolTitle] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  
+
+  const { push } = useRouter();
+
   function onSubmitAuthenticationModal(e: FormEvent) {
-    e.preventDefault();
-    setIsOpen(true);
+    // e.preventDefault();
+    // setIsOpen(true);
+
+    push('/home')
+   
     
   }
 

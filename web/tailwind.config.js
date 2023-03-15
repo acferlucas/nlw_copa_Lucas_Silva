@@ -5,7 +5,7 @@ module.exports = {
   ],
   theme: {
     extend: {
-      fontFamily : {
+      fontFamily: {
         sans: 'Roboto, sans-serif'
       },
       backgroundImage: {
@@ -13,7 +13,8 @@ module.exports = {
       },
       colors: {
         ignite: {
-          500:'#129E57'
+          500: '#129E57',
+          600: '#2980BA'
         },
         yellow: {
           500: '#F7DD43',
@@ -27,7 +28,7 @@ module.exports = {
           900: '#121214'
         }
       }
-    },
+    }
   },
-  plugins: [],
+  plugins: []
 }
