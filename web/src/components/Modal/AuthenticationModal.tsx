@@ -3,7 +3,6 @@ import { GoogleAuthButton } from '../'
 import { api } from '../../lib/axios';
 
 export function AuthenticationModal({  pollTitle ,isOpen, onCloseModal }: { pollTitle: string, isOpen: boolean, onCloseModal: () => void }): JSX.Element {
-  
   const modalStyle: Modal.Styles = {
     content: {
       width: '20%',
@@ -21,22 +20,6 @@ export function AuthenticationModal({  pollTitle ,isOpen, onCloseModal }: { poll
       backgroundColor: 'rgba(0, 0, 0, 0.6)',
     }
   }
-
-  async function handleCreatePoll(user : any) {
-    try {
-      const { data } = await api.post('poll', {
-        title: pollTitle,
-      })
-      await navigator.clipboard.writeText(data.code)
-      
-      alert(`Bolão ${data.code} criado com sucesso!!`)
-
-    }catch(err:any) {
-      console.log(err.response.data[0])
-      alert('Falha ao criar bolão')
-    }
-  }
-
   return (
     <Modal 
       isOpen={isOpen}

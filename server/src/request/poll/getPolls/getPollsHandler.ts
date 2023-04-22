@@ -10,13 +10,13 @@ export class GetPollsHandler {
             some: {
               userId: userId
             }
-          }
+          },
         },
         include: {
           _count: {
             select: {
               participants: true
-            }
+            },
           },
           participants: {
             select: {

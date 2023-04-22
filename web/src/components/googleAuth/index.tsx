@@ -1,14 +1,24 @@
 import { useGoogleLogin } from '@react-oauth/google'
-
+import { useRouter } from 'next/router';
+import { api } from '../../lib/axios';
 
 export function GoogleAuthButton({ onCloseModal } : { onCloseModal: () => void }): JSX.Element {
-  
+  const { push } = useRouter();
   const login = useGoogleLogin({
-    onSuccess: tokenResponse => {
-      console.log(tokenResponse)
-      onCloseModal();
+    onSuccess: async tokenResponse => {
+
+      const { access_token } = tokenResponse
+
+      console.log(access_token)
+
+      const { data } = await api.post('/users/auth/google', {
+        access_token,
+      })
+      localStorage.setItem('@token', JSON.stringify(data))
+      
+      push('/home')
     },
-    
+
   });
   
   return (
