@@ -3,12 +3,15 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { api } from '../../lib/axios'
 
 export interface User {
-  name: string;
-  avatarUrl: string;
-  email: string;
-  sub: string;
-  iat: number;
-  exp: number
+  id: string;
+		nome: string;
+		email: string;
+		avatarUrl: string;
+		createdAt: string;
+    _count: {
+			ownpolls: number;
+			participatingAt: number;
+		}
 }
 
 export interface Participants {
@@ -41,8 +44,9 @@ export interface Feed {
 
 export default async function handler(req: NextApiRequest,res: NextApiResponse<Feed>) {
   const { token } = req.query
+  
   const [userResponse, pollsResponse] = await Promise.all([
-    api.get('/me', {
+    api.get('/user', {
     headers : {
       Authorization: 'Bearer ' + token
     }

@@ -6,22 +6,25 @@ import { Poll, User } from '../api/feed'
 
 
 export default function HomePage():JSX.Element {
+  const [polls, setPolls] = useState<Poll[]>([])
+  const [user, setUser] = useState<User>()
   const [isActive, setIsActive] = useState(false);
   const [input, setInput] = useState('');
-  const [polls, setPolls] = useState<Poll[]>([])
 
+  
   const filterPolls = input.length > 0 ? polls.filter(poll => poll.title.toLowerCase().includes(input.toLowerCase())) : polls
-
-  console.log(filterPolls)
-
+  
   useEffect(() => {
+    
     const { token } = JSON.parse(localStorage.getItem('@token') as string)
 
     async function loadUserFeed():Promise<void> {
       const response = await fetch(`/api/feed?token=${token}`);
       const { user, polls } = await response.json();
+      localStorage.setItem('user', JSON.stringify(user))
       
       setPolls(polls)
+      setUser(user)
     }
 
     loadUserFeed();
@@ -32,7 +35,7 @@ export default function HomePage():JSX.Element {
     <>
     <HomeHeader />
     <div className='flex mt-4 px-4'>
-      <UserCard />
+      <UserCard user={user}/>
       <main className='flex flex-col w-full px-4'>
         <div className='mt-4 flex w-[984px] px-6 py-4 rounded bg-gray-800 border-gray-600 text-sm text-gray-100'>
          <input 
@@ -50,7 +53,7 @@ export default function HomePage():JSX.Element {
           <h1 className='text-lg text-yellow-500'>criar meu bolão</h1>
         </button>
         <ul className='mt-4'>
-          { filterPolls.length > 0 && filterPolls.map( poll => <PollCard key={poll.id} poll={poll} /> ) }
+          { filterPolls.length > 0 && filterPolls.map(poll => <PollCard key={poll.id} poll={poll} /> ) }
         </ul>
       </main>
       <StaticsCard />
