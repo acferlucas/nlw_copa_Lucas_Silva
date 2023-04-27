@@ -24,8 +24,27 @@ export class CreatePollHandler {
               userId: body.ownerId
             }
           }
+        },
+        include: {
+          participants: {
+            select: {
+              id: true,
+              user: {
+                select: {
+                  avatarUrl: true,
+                }
+              }
+            },
+          },
+          owner: {
+            select: {
+              id: true,
+              nome: true,
+            }
+          }
         }
       })
+
 
       return poll
     } catch (err: any) {
