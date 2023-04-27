@@ -4,18 +4,21 @@ import UserCard from "./userCard";
 import StaticsCard from "./staticsCard";
 import HomeHeader from "./homeHeader";
 import ParticipantContainer from "./participantContainer";
-import { AuthenticationModal } from './Modal/AuthenticationModal'
-import { CreatePollModal } from './Modal/CreatePollModal'
+import HomeMenu from "./homeMenu";
+import { AuthenticationModal, SearchPollComponent, CreatePollComponent, HomeMenuModal } from './Modal'
 import { GoogleAuthButton } from './googleAuth'
 
 export {
   CountCard,
-  AuthenticationModal,
   GoogleAuthButton,
   PollCard,
   UserCard,
   HomeHeader,
   ParticipantContainer,
   StaticsCard,
-  CreatePollModal
+  HomeMenuModal,
+  SearchPollComponent,
+  AuthenticationModal,
+  CreatePollComponent,
+  HomeMenu
 }
