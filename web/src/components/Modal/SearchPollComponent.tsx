@@ -15,10 +15,6 @@ export function SearchPollComponent(): JSX.Element {
       >
         Buscar Bolão
       </button>
-      <span className="flex mt-4 text-white leading-relaxed">
-        Após criar seu bolão, você receberá um código único que poderá usar para
-        convidar outras pessoas.
-      </span>
     </>
   )
 }

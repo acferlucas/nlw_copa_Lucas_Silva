@@ -5,6 +5,7 @@ import StaticsCard from './staticsCard'
 import HomeHeader from './homeHeader'
 import ParticipantContainer from './participantContainer'
 import HomeMenu from './homeMenu'
+import Paginated from './paginate'
 import {
   AuthenticationModal,
   SearchPollComponent,
@@ -26,4 +27,5 @@ export {
   AuthenticationModal,
   CreatePollComponent,
   HomeMenu,
+  Paginated,
 }

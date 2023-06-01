@@ -12,6 +12,7 @@ export default function UserCard({
 
   function handleButtonClick() {
     localStorage.removeItem('@token')
+    localStorage.removeItem('@user')
     push('/')
   }
 
@@ -20,10 +21,10 @@ export default function UserCard({
   }
 
   return (
-    <aside className="">
-      <section className="px-4 w-80 h-80 p-4 flex flex-col bg-gray-800 border border-transparent rounded-2xl items-center">
+    <aside className="mt-8 mx-4">
+      <section className="w-80 h-80 p-4 flex flex-col bg-gray-800 border border-transparent rounded-2xl items-center">
         <div className="">
-          <div className="w-32 h-32  flex items-center justify-center rounded-full mx-auto bg-gray-900 border border-gray-700 [&>img]:rounded-full">
+          <div className="w-32 h-32 flex items-center justify-center rounded-full mx-auto bg-gray-900 border border-gray-700 [&>img]:rounded-full">
             <Image
               width={116}
               height={116}

@@ -21,6 +21,8 @@ async function bootstrap() {
     secret: process.env.ACCESS_TOKEN_SECRET || "JwTokenSecret"
   })
 
+  fastify.get("/heartbeat", (req, res) => res.send(true))
+
   await fastify.register(guessesRoutes);
   await fastify.register(pollRoutes);
   await fastify.register(gameRoutes);

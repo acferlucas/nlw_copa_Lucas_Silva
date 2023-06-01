@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { authenticate } from "../plugins/authenticate";
 import { CreatePollHandler, GetPollCountHandler, JoinPollHandler, GetPollsHandler, GetPollHandler } from "../request";
+import { GetFeedHandler } from "../request/feed/getFeed/getFeedHandler";
 
 export async function pollRoutes(fastify: FastifyInstance) {
   fastify.get('/poll/count', async (req, res) => {
@@ -81,6 +82,26 @@ export async function pollRoutes(fastify: FastifyInstance) {
       const data = await new GetPollHandler().getPollHandler(id);
 
       res.status(200).send({ poll: data })
+
+    } catch (err) {
+      res.status(400).send(err)
+    }
+  })
+
+  fastify.get('/poll/feed', {
+    onRequest: [authenticate]
+  }, async (req, res) => {
+    try {
+      const FeedParams = z.object({
+        page: z.string(),
+        maxPerPage: z.string(),
+      })
+
+      const { page, maxPerPage } = FeedParams.parse(req.query)
+
+      const feed = await new GetFeedHandler().getFeed(req.user.sub, page, maxPerPage);
+
+      return res.send({ feed })
 
     } catch (err) {
       res.status(400).send(err)
