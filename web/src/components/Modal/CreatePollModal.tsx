@@ -4,7 +4,7 @@ import { FeedPoll } from '../../pages/api/feed'
 
 interface CreatePollComponentProps {
   handlerCloseModal: () => void
-  createPoll: (poll: FeedPoll) => void
+  createPoll: () => void
 }
 
 export function CreatePollComponent({
@@ -31,7 +31,7 @@ export function CreatePollComponent({
 
       window.alert(`Bolão ${data.code} Criado com sucesso!!!`)
 
-      createPoll(data)
+      createPoll()
       handlerCloseModal()
     } catch (error) {
       console.log(error)

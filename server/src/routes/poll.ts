@@ -3,6 +3,7 @@ import { z } from "zod";
 import { authenticate } from "../plugins/authenticate";
 import { CreatePollHandler, GetPollCountHandler, JoinPollHandler, GetPollsHandler, GetPollHandler } from "../request";
 import { GetFeedHandler } from "../request/feed/getFeed/getFeedHandler";
+import { SearchPollHandler } from "../request/poll/searchPoll/searchPollHandler";
 
 export async function pollRoutes(fastify: FastifyInstance) {
   fastify.get('/poll/count', async (req, res) => {
@@ -64,6 +65,22 @@ export async function pollRoutes(fastify: FastifyInstance) {
       const data = await new GetPollsHandler().getPollsHandler(req.user.sub);
 
       res.status(200).send({ polls: data })
+    } catch (err) {
+      res.status(400).send(err)
+    }
+  })
+
+  fastify.get('/polls/search', async (req, res) => {
+    try {
+      const searchQuery = z.object({
+        code: z.string(),
+      })
+
+      const { code } = searchQuery.parse(req.query)
+
+      const data = await new SearchPollHandler().searchPoll(code);
+
+      res.status(200).send({ data })
     } catch (err) {
       res.status(400).send(err)
     }

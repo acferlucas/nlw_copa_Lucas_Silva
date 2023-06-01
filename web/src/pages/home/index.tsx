@@ -84,9 +84,8 @@ export default function HomePage(): JSX.Element {
     setIsSearchModalOpen(true)
   }
 
-  function handlerCreatePoll(poll: FeedPoll): void {
-    console.log(poll)
-    setPolls((prevPolls) => [...prevPolls, poll])
+  function handlerCreatePoll(): void {
+    window.location.reload()
   }
 
   function handlePreviousPage() {
