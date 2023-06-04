@@ -20,6 +20,27 @@ export function SearchPollComponent(): JSX.Element {
     setSearchedPolls(data.data)
   }
 
+  async function HandleJoinPoll() {
+    try {
+      await api.post(
+        `/poll/join`,
+        {
+          code: selectedPoll?.code,
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        },
+      )
+
+      alert('joined successfully')
+      window.location.reload()
+    } catch (err) {
+      alert(err)
+    }
+  }
+
   if (selectedPoll) {
     return (
       <div>
@@ -32,6 +53,7 @@ export function SearchPollComponent(): JSX.Element {
           <button
             className="mt-4 px-6 py-4 rounded bg-yellow-500 text-gray-900 font-bold text-lg uppercase hover:bg-yellow-700 w-full"
             type="button"
+            onClick={HandleJoinPoll}
           >
             Participar!
           </button>
