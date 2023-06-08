@@ -24,7 +24,7 @@ export default function HomePage(): JSX.Element {
 
   return (
     <HomeLayout user={user}>
-      <HomeContent pollCode="AZN13" />
+      <HomeContent />
     </HomeLayout>
   )
 }

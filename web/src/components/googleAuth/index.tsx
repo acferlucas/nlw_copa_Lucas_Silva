@@ -12,8 +12,6 @@ export function GoogleAuthButton({
     onSuccess: async (tokenResponse) => {
       const { access_token } = tokenResponse
 
-      console.log(access_token)
-
       const { data } = await api.post('/users/auth/google', {
         access_token,
       })

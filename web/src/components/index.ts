@@ -17,6 +17,9 @@ import {
   HomeMenuModal,
 } from './Modal'
 import { GoogleAuthButton } from './googleAuth'
+import PollDetailsOptions from './pollDetailsOptions'
+import PollDetailsHeader from './pollDetailsHeader'
+import Team from './team'
 
 export {
   CountCard,
@@ -36,4 +39,7 @@ export {
   ParticipantsWrapper,
   Guess,
   Participant,
+  PollDetailsOptions,
+  PollDetailsHeader,
+  Team,
 }

@@ -1,6 +1,7 @@
 import { X } from 'phosphor-react'
-import brazilianImg from '../../assets/brazil.png'
-import Image from 'next/image'
+import stcSheild from '../../assets/santa_cruz.png'
+import noShield from '../../assets/no_team.jpg'
+import Team from '../team'
 
 export default function Guess(): JSX.Element {
   return (
@@ -10,21 +11,9 @@ export default function Guess(): JSX.Element {
         22 de Novembro de 2022 ás 16h00h
       </p>
       <section className="flex justify-between items-center px-4 pb-5">
-        <div className="flex gap-4 [&>img]:w-14 h-16">
-          <input
-            className="w-14 h-16 text-xl p-4 rounded bg-ignite-900 text-white font-bold"
-            type="text"
-          />
-          <Image src={brazilianImg} alt="brazilianImg" />
-        </div>
+        <Team teamCode="SantaCruz" teamAvatarImgUrl={stcSheild} />
         <X size={32} />
-        <div className="flex gap-4 [&>img]:w-14 h-16">
-          <input
-            className="w-14 h-16 text-xl p-4 rounded bg-ignite-900 text-white font-bold"
-            type="text"
-          />
-          <Image src={brazilianImg} alt="brazilianImg" />
-        </div>
+        <Team teamCode="Sport" teamAvatarImgUrl={noShield} />
       </section>
     </li>
   )
