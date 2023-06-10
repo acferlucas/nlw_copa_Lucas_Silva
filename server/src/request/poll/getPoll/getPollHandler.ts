@@ -30,6 +30,26 @@ export class GetPollHandler {
               id: true,
               nome: true,
             }
+          },
+          tournament: {
+            select: {
+              id: true,
+              name: true,
+              games: {
+                select: {
+                  id: true,
+                  guesses: {
+                    select: {
+                      participantId: true,
+                      firstTeamScore: true,
+                      secondTeamScore: true,
+                    }
+                  },
+                  firstTeam: true,
+                  secondTeam: true,
+                }
+              }
+            }
           }
         }
       })

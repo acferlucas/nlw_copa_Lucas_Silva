@@ -14,17 +14,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Poll {
-  id        String   @id @default(cuid())
-  title     String
-  code      String   @unique
-  ownerId   String?
-  createdAt DateTime @default(now())
-
-  participants Participant[]
-  owner        User?         @relation(fields: [ownerId], references: [id])
-}
-
 model Participant {
   id      String  @id @default(cuid())
   guesses Guess[]
@@ -48,17 +37,6 @@ model User {
   ownpolls        Poll[]
 }
 
-model Game {
-  id           String   @id @default(cuid())
-  date         DateTime
-  firstTeamId  String
-  secondTeamId String
-  guesses      Guess[]
-
-  firstTeam  Team @relation("FirstTeam", fields: [firstTeamId], references: [id])
-  secondTeam Team @relation("SecondTeam", fields: [secondTeamId], references: [id])
-}
-
 model Guess {
   id              String   @id @default(cuid())
   participantId   String
@@ -73,10 +51,46 @@ model Guess {
   @@unique([participantId, gameId])
 }
 
+model Poll {
+  id           String   @id @default(cuid())
+  title        String
+  code         String   @unique
+  ownerId      String?
+  createdAt    DateTime @default(now())
+  tournamentId String?
+
+  tournament   Tournament?   @relation(fields: [tournamentId], references: [id])
+  participants Participant[]
+  owner        User?         @relation(fields: [ownerId], references: [id])
+}
+
+model Game {
+  id           String   @id @default(cuid())
+  date         DateTime
+  firstTeamId  String
+  secondTeamId String
+  guesses      Guess[]
+
+  firstTeam    Team        @relation("FirstTeam", fields: [firstTeamId], references: [id])
+  secondTeam   Team        @relation("SecondTeam", fields: [secondTeamId], references: [id])
+  Tournament   Tournament? @relation(fields: [tournamentId], references: [id])
+  tournamentId String?
+}
+
+model Tournament {
+  id        String   @id @default(cuid())
+  name      String
+  startDate DateTime
+  endDate   DateTime
+  createdAt DateTime @default(now())
+  games     Game[]
+  Poll      Poll[]
+}
+
 model Team {
   id              String   @id @default(cuid())
-  teamName        String
-  teamShieldUrl   String
+  teamName        String   @unique
+  teamShieldUrl   String   @unique
   createdAt       DateTime @default(now())
   firstTeamGames  Game[]   @relation("FirstTeam")
   secondTeamGames Game[]   @relation("SecondTeam")

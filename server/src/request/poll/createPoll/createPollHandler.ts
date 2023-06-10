@@ -4,24 +4,19 @@ import prisma from '../../../lib/prisma'
 
 const generator = new ShortUniqueId({ length: 6 })
 
-export interface CreatePollRequest {
-  title: string
-  ownerId: string
-}
-
 export class CreatePollHandler {
 
-  public async createPoll(body: CreatePollRequest): Promise<Poll> {
+  public async createPoll(title: string, ownerId: string): Promise<Poll> {
     try {
       const poll = await prisma.poll.create({
         data: {
-          title: body.title,
+          title,
           code: generator().toUpperCase(),
-          ownerId: body.ownerId,
+          ownerId,
 
           participants: {
             create: {
-              userId: body.ownerId
+              userId: ownerId
             }
           }
         },

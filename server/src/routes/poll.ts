@@ -28,7 +28,7 @@ export async function pollRoutes(fastify: FastifyInstance) {
         })
 
         const { title } = createPollBody.parse(req.body)
-        const response = await new CreatePollHandler().createPoll({ title, ownerId: req.user.sub })
+        const response = await new CreatePollHandler().createPoll(title, req.user.sub)
 
         res.status(201).send(response)
       } catch (error: any) {
