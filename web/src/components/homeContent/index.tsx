@@ -116,7 +116,7 @@ export default function HomeContent(): JSX.Element {
             </li>
           </ul>
         </nav>
-        <PollDetailsOptions menuOption={menuOption} />
+        <PollDetailsOptions menuOption={menuOption} pollId={selectedPoll.id} />
       </main>
     )
   }

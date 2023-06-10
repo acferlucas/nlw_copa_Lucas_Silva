@@ -1,8 +1,8 @@
-import Image, { StaticImageData } from 'next/image'
+import Image from 'next/image'
 
 interface TeamProps {
   teamCode: string
-  teamAvatarImgUrl: StaticImageData
+  teamAvatarImgUrl: string
 }
 
 export default function Team({
@@ -15,7 +15,7 @@ export default function Team({
         className="w-14 h-16 text-xl p-4 rounded bg-ignite-900 text-white font-bold"
         type="text"
       />
-      <Image src={teamAvatarImgUrl} alt={teamCode} />
+      <Image src={teamAvatarImgUrl} alt={teamCode} width={24} height={24} />
     </div>
   )
 }
