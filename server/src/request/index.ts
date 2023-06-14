@@ -2,6 +2,7 @@ import { CreatePollHandler, GetPollCountHandler, JoinPollHandler, GetPollsHandle
 import { GetUsersCountHandler, GetUserHandler } from './user'
 import { GetGuessesCountHandler, CreateGuessHandler } from './guess'
 import { GetGamesHandler } from './game'
+import { GetTournamentsHandler, SearchTournamentsHandler } from './tournament'
 
 
 export {
@@ -14,5 +15,7 @@ export {
   GetPollHandler,
   GetGamesHandler,
   CreateGuessHandler,
-  GetUserHandler
+  GetUserHandler,
+  GetTournamentsHandler,
+  SearchTournamentsHandler
 }
