@@ -2,9 +2,12 @@ import prisma from "../../../lib/prisma";
 
 export class GetGamesHandler {
 
-  public async getGamesHandler(pollId: string, userId: string) {
+  public async getGamesHandler(pollId: string, userId: string, tournamentId: string) {
     try {
       const games = await prisma.game.findMany({
+        where: {
+          tournamentId,
+        },
         orderBy: {
           date: 'desc'
         },
@@ -15,6 +18,20 @@ export class GetGamesHandler {
                 userId,
                 pollId,
               }
+            }
+          },
+          firstTeam: {
+            select: {
+              id: true,
+              teamName: true,
+              teamShieldUrl: true,
+            }
+          },
+          secondTeam: {
+            select: {
+              id: true,
+              teamName: true,
+              teamShieldUrl: true,
             }
           }
         }

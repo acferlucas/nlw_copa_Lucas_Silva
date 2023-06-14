@@ -41,7 +41,7 @@ export class CreateGuessHandler {
 
       if (!game) throw new Error('Game não encontrado')
 
-      if (game.date < new Date()) throw new Error('Não pode fazer palpite em um jogo finalizado')
+      //if (game.date < new Date()) throw new Error('Não pode fazer palpite em um jogo finalizado')
 
       const createdGuess = await prisma.guess.create({
         data: {

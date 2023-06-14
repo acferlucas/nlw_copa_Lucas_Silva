@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { authenticate } from "../plugins/authenticate";
-import { CreatePollHandler, GetPollCountHandler, JoinPollHandler, GetPollsHandler, GetPollHandler } from "../request";
+import { CreatePollHandler, GetPollCountHandler, JoinPollHandler, GetPollsHandler, GetPollHandler, GetGamesHandler } from "../request";
 import { GetFeedHandler } from "../request/feed/getFeed/getFeedHandler";
 import { SearchPollHandler } from "../request/poll/searchPoll/searchPollHandler";
 
@@ -100,6 +100,26 @@ export async function pollRoutes(fastify: FastifyInstance) {
 
       res.status(200).send({ poll: data })
 
+    } catch (err) {
+      res.status(400).send(err)
+    }
+  })
+
+  fastify.get('/poll/:id/games/:tournamentId', {
+    onRequest: [authenticate]
+  }, async (req, res) => {
+    try {
+
+      const getPollParams = z.object({
+        id: z.string(),
+        tournamentId: z.string()
+      })
+
+      const { id, tournamentId } = getPollParams.parse(req.params)
+
+      const data = await new GetGamesHandler().getGamesHandler(id, req.user.sub, tournamentId);
+
+      res.status(200).send({ data })
     } catch (err) {
       res.status(400).send(err)
     }
