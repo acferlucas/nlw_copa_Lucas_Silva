@@ -23,7 +23,7 @@ export default function PollDetailsHeader({
             Código:
             <strong className="flex items-center gap-1">
               {poll.code}{' '}
-              <button>
+              <button onClick={() => navigator.clipboard.writeText(poll.code)}>
                 <Copy size={18} />
               </button>
             </strong>

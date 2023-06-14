@@ -1,6 +1,7 @@
 import { useGoogleLogin } from '@react-oauth/google'
 import { useRouter } from 'next/router'
 import { api } from '../../lib/axios'
+import jwtDecode from 'jwt-decode'
 
 export function GoogleAuthButton({
   onCloseModal,
@@ -15,7 +16,9 @@ export function GoogleAuthButton({
       const { data } = await api.post('/users/auth/google', {
         access_token,
       })
+
       localStorage.setItem('@token', JSON.stringify(data))
+      localStorage.setItem('@user', JSON.stringify(jwtDecode(data.token)))
 
       push('/home')
     },

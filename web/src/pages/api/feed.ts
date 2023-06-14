@@ -28,6 +28,7 @@ export interface FeedPoll {
   ownerId: string
   createdAt: string
   participants: Array<Participants>
+  tournamentId: string | null
   owner: {
     id: string
     nome: string

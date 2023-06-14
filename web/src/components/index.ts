@@ -8,7 +8,7 @@ import HomeMenu from './homeMenu'
 import HomeContent from './homeContent'
 import Paginated from './paginate'
 import ParticipantsWrapper from './participantSWrapper'
-import Guess from './guess'
+import Game from './game'
 import Participant from './participant'
 import {
   AuthenticationModal,
@@ -37,7 +37,7 @@ export {
   Paginated,
   HomeContent,
   ParticipantsWrapper,
-  Guess,
+  Game,
   Participant,
   PollDetailsOptions,
   PollDetailsHeader,
