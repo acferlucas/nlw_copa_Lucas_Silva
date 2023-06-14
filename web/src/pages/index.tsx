@@ -25,7 +25,7 @@ export default function Home({ poolCount, guessCount, userCount }: HomeProps) {
   }
 
   return (
-    <GoogleOAuthProvider clientId="151621233052-f36spt47302t7mgqk46t738qjkrrmc3p.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={String(process.env.OA_CLIENT_ID)}>
       <div className="bg-gray-900 bg-app bg-no-repeat bg-cover">
         <div className="max-w-[1124px] h-screen mx-auto grid grid-cols-2 gap-28 items-center">
           <main>

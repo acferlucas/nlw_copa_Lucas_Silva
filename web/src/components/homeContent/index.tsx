@@ -1,5 +1,5 @@
 import { MagnifyingGlass } from 'phosphor-react'
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useCallback } from 'react'
 import { api } from '../../lib/axios'
 import { FeedPoll } from '../../pages/api/feed'
 import {
@@ -39,26 +39,28 @@ export default function HomeContent(): JSX.Element {
     return polls
   }, [input, polls])
 
-  useEffect(() => {
+  const loadFeed = useCallback(async () => {
     const { token } = JSON.parse(localStorage.getItem('@token') as string)
-    async function loadFeed() {
-      const { data } = await api.get('/poll/feed', {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-        params: {
-          page,
-          maxPerPage,
-        },
-      })
 
-      const { totalItems, polls } = data.feed
+    const { data } = await api.get('/poll/feed', {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+      params: {
+        page,
+        maxPerPage,
+      },
+    })
 
-      setTotalItems(totalItems)
-      setPolls(polls)
-    }
-    loadFeed()
+    const { totalItems, polls } = data.feed
+
+    setTotalItems(totalItems)
+    setPolls(polls)
   }, [page])
+
+  useEffect(() => {
+    loadFeed()
+  }, [page, loadFeed])
 
   function handlerCreatePollModal(): void {
     setIsCreateModalOpen(true)
@@ -69,7 +71,7 @@ export default function HomeContent(): JSX.Element {
   }
 
   function handlerCreatePoll(): void {
-    window.location.reload()
+    loadFeed()
   }
 
   function handlePreviousPage() {

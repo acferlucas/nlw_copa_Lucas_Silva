@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Game from '../game'
 import Participant from '../participant'
 import { api } from '../../lib/axios'
@@ -15,7 +15,7 @@ interface Team {
   teamShieldUrl: string
 }
 
-interface PollGameGuess {
+export interface PollGameGuess {
   id: string
   participantId: string
   gameId: string
@@ -42,34 +42,42 @@ export default function PollDetailsOptions({
 }: PollDetailsOptionsProps): JSX.Element {
   const [games, setGames] = useState<PollGame[]>([])
 
-  useEffect(() => {
-    async function handleLoadGames() {
-      try {
-        const { token } = JSON.parse(localStorage.getItem('@token') as string)
+  const handlerLoadGames = useCallback(async () => {
+    try {
+      const { token } = JSON.parse(localStorage.getItem('@token') as string)
 
-        const { data } = await api.get(
-          `/poll/${pollId}/games/${tournamentId}`,
-          {
-            headers: {
-              Authorization: 'Bearer ' + token,
-            },
-          },
-        )
+      const { data } = await api.get(`/poll/${pollId}/games/${tournamentId}`, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      })
 
-        setGames(data.data.games)
-      } catch (err: any) {
-        console.log(err)
-      }
+      setGames(data.data.games)
+    } catch (err: any) {
+      console.log(err)
     }
-
-    handleLoadGames()
   }, [pollId, tournamentId])
+
+  useEffect(() => {
+    handlerLoadGames()
+  }, [handlerLoadGames])
+
+  function handlerGuessConfirm(): void {
+    handlerLoadGames()
+  }
 
   if (menuOption === 'poll') {
     return (
-      <ul className="h-[640px] overflow-y-auto">
+      <ul className="h-[640px] overflow-y-auto scrollbar scrollbar-none">
         {games.length > 0 ? (
-          games.map((game) => <Game key={game.id} game={game} />)
+          games.map((game) => (
+            <Game
+              key={game.id}
+              game={game}
+              pollId={pollId}
+              onGuessConfirm={handlerGuessConfirm}
+            />
+          ))
         ) : (
           <h1 className="font-bold text-2xl text-white mt-4">
             Este bolão não possui torneio,{' '}
@@ -86,12 +94,12 @@ export default function PollDetailsOptions({
   }
 
   return (
-    <>
+    <ul className="overflow-y-auto scrollbar scrollbar-none">
       <Participant />
       <Participant />
       <Participant />
       <Participant />
       <Participant />
-    </>
+    </ul>
   )
 }
