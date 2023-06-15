@@ -13,9 +13,12 @@ export class SearchTournamentsHandler {
         select: {
           id: true,
           name: true,
+          startDate: true,
+          endDate: true,
           _count: {
             select: {
-              Poll: true
+              Poll: true,
+              games: true,
             }
           }
         }
