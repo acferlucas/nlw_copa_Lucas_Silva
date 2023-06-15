@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { authenticate } from "../plugins/authenticate";
-import { CreatePollHandler, GetPollCountHandler, JoinPollHandler, GetPollsHandler, GetPollHandler, GetGamesHandler } from "../request";
+import { CreatePollHandler, GetPollCountHandler, JoinPollHandler, GetPollsHandler, GetPollHandler, GetGamesHandler, JoinTournamentHandler } from "../request";
 import { GetFeedHandler } from "../request/feed/getFeed/getFeedHandler";
 import { SearchPollHandler } from "../request/poll/searchPoll/searchPollHandler";
 
@@ -118,6 +118,29 @@ export async function pollRoutes(fastify: FastifyInstance) {
       const { id, tournamentId } = getPollParams.parse(req.params)
 
       const data = await new GetGamesHandler().getGamesHandler(id, req.user.sub, tournamentId);
+
+      res.status(200).send({ data })
+    } catch (err) {
+      res.status(400).send(err)
+    }
+  })
+
+  fastify.patch('/poll/:id/tournament/join', {
+    onRequest: [authenticate]
+  }, async (req, res) => {
+    try {
+      const pollJoinTournamentParams = z.object({
+        id: z.string(),
+      })
+
+      const pollJoinTournamentBody = z.object({
+        tournamentId: z.string(),
+      })
+
+      const { id } = pollJoinTournamentParams.parse(req.params)
+      const { tournamentId } = pollJoinTournamentBody.parse(req.body)
+
+      const data = await new JoinTournamentHandler().joinTournament(req.user.sub, id, tournamentId)
 
       res.status(200).send({ data })
     } catch (err) {

@@ -1,16 +1,16 @@
 import { useState } from 'react'
-
-export interface Tournament {
-  id: string
-  name: string
-}
+import { api } from '../../lib/axios'
+import PollTournament, { Tournament } from '../pollTournament'
 
 export function SearchTournamentModal(): JSX.Element {
   const [input, setInput] = useState('')
   const [searchedTournaments, setSearchedTournaments] = useState<Tournament[]>()
 
-  function handlerSearchTournaments() {
-    alert('tournament')
+  async function handlerSearchTournaments() {
+    const { data } = await api.get(`/tournament/search?name=${input}`)
+    setSearchedTournaments(data.data)
+
+    setInput('')
   }
   return (
     <>
@@ -33,7 +33,7 @@ export function SearchTournamentModal(): JSX.Element {
       </button>
       <ul className="mt-4">
         {searchedTournaments?.map((tournament) => (
-          <h1 key={tournament.id}>{tournament.name}</h1>
+          <PollTournament key={tournament.id} tournament={tournament} />
         ))}
       </ul>
     </>

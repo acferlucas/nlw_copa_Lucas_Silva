@@ -20,6 +20,7 @@ import { GoogleAuthButton } from './googleAuth'
 import PollDetailsOptions from './pollDetailsOptions'
 import PollDetailsHeader from './pollDetailsHeader'
 import Team from './team'
+import PollTournament from './pollTournament'
 
 export {
   CountCard,
@@ -42,4 +43,5 @@ export {
   PollDetailsOptions,
   PollDetailsHeader,
   Team,
+  PollTournament,
 }

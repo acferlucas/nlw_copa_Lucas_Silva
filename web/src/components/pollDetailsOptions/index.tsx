@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import Game from '../game'
 import Participant from '../participant'
 import { api } from '../../lib/axios'
+import { HomeMenuModal, SearchTournamentModal } from '../Modal'
 
 interface PollDetailsOptionsProps {
   pollId: string
@@ -40,6 +41,7 @@ export default function PollDetailsOptions({
   pollId,
   tournamentId,
 }: PollDetailsOptionsProps): JSX.Element {
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false)
   const [games, setGames] = useState<PollGame[]>([])
 
   const handlerLoadGames = useCallback(async () => {
@@ -79,15 +81,23 @@ export default function PollDetailsOptions({
             />
           ))
         ) : (
-          <h1 className="font-bold text-2xl text-white mt-4">
-            Este bolão não possui torneio,{' '}
-            <button
-              className="text-yellow-700"
-              onClick={() => alert('Clicou no botão para associar um torneio')}
+          <>
+            <h1 className="font-bold text-2xl text-white mt-4">
+              Este bolão não possui torneio,{' '}
+              <button
+                className="text-yellow-700"
+                onClick={() => setIsSearchModalOpen(true)}
+              >
+                associe um torneio
+              </button>
+            </h1>
+            <HomeMenuModal
+              isOpen={isSearchModalOpen}
+              onCloseModal={() => setIsSearchModalOpen(false)}
             >
-              associe um torneio
-            </button>
-          </h1>
+              <SearchTournamentModal />
+            </HomeMenuModal>
+          </>
         )}
       </ul>
     )
