@@ -122,6 +122,7 @@ export default function HomeContent(): JSX.Element {
           menuOption={menuOption}
           pollId={selectedPoll.id}
           tournamentId={selectedPoll.tournamentId}
+          tournamentConfirm={() => loadFeed()}
         />
       </main>
     )

@@ -1,10 +1,22 @@
 import { useState } from 'react'
 import { api } from '../../lib/axios'
 import PollTournament, { Tournament } from '../pollTournament'
+import SearchComponent from '../searchComponent'
+import SearchConfirmationDialog from '../searchConfirmationDialog'
 
-export function SearchTournamentModal(): JSX.Element {
+interface SearchTournamentModalProps {
+  pollId: string
+  onTournamentConfirm: (id: string) => void
+}
+
+export function SearchTournamentModal({
+  pollId,
+  onTournamentConfirm,
+}: SearchTournamentModalProps): JSX.Element {
   const [input, setInput] = useState('')
   const [searchedTournaments, setSearchedTournaments] = useState<Tournament[]>()
+  const [selectedTournament, setSelectedTournament] =
+    useState<Tournament | null>(null)
 
   async function handlerSearchTournaments() {
     const { data } = await api.get(`/tournament/search?name=${input}`)
@@ -12,30 +24,60 @@ export function SearchTournamentModal(): JSX.Element {
 
     setInput('')
   }
-  return (
-    <>
-      <h1 className="mt-16 text-white text-3xl font-bold">
-        Pesquise um torneio pelo nome
-      </h1>
-      <input
-        type="text"
-        className=" mt-4 px-6 py-4 rounded bg-gray-800 border-gray-600 text-lg text-gray-100 w-full"
-        placeholder="Codigo unico do bolão"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      />
-      <button
-        className="mt-4 px-6 py-4 rounded bg-yellow-500 text-gray-900 font-bold text-lg uppercase hover:bg-yellow-700 w-full"
-        type="button"
-        onClick={handlerSearchTournaments}
+
+  async function handlerJoinTournament() {
+    try {
+      const { token } = JSON.parse(localStorage.getItem('@token') as string)
+
+      const { data } = await api.patch(
+        `/poll/${pollId}/tournament/join`,
+        {
+          tournamentId: selectedTournament?.id,
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        },
+      )
+      alert(`Torneio: ${data.data.tournamentId} associado com sucesso!!`)
+      setSelectedTournament(null)
+      onTournamentConfirm(data.data.tournamentId)
+    } catch (err) {
+      console.log(err)
+      alert(err)
+    }
+  }
+
+  if (selectedTournament) {
+    return (
+      <SearchConfirmationDialog
+        title="Tem certeza que deseja vincular o bolão com torneio:"
+        itemDescription={selectedTournament.name}
+        confirmButtonPlaceholder="Confirmar"
+        onConfirmPress={handlerJoinTournament}
+        onCancelPress={() => setSelectedTournament(null)}
       >
-        Buscar Torneio
-      </button>
-      <ul className="mt-4">
-        {searchedTournaments?.map((tournament) => (
-          <PollTournament key={tournament.id} tournament={tournament} />
-        ))}
-      </ul>
-    </>
+        <PollTournament tournament={selectedTournament} />
+      </SearchConfirmationDialog>
+    )
+  }
+  return (
+    <SearchComponent
+      searchTitle="Pesquise um torneio pelo nome"
+      searchInput={input}
+      handlerSetInput={setInput}
+      placeholder="Digite o nome de um torneio para vincular"
+      buttonPlaceholder="Buscar Torneio"
+      onSearch={handlerSearchTournaments}
+    >
+      {searchedTournaments?.map((tournament) => (
+        <PollTournament
+          key={tournament.id}
+          tournament={tournament}
+          onPress={() => setSelectedTournament(tournament)}
+        />
+      ))}
+    </SearchComponent>
   )
 }

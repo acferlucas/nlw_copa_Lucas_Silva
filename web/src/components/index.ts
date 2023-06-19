@@ -21,6 +21,8 @@ import PollDetailsOptions from './pollDetailsOptions'
 import PollDetailsHeader from './pollDetailsHeader'
 import Team from './team'
 import PollTournament from './pollTournament'
+import SearchComponent from './searchComponent'
+import SearchConfirmationDialog from './searchConfirmationDialog'
 
 export {
   CountCard,
@@ -44,4 +46,6 @@ export {
   PollDetailsHeader,
   Team,
   PollTournament,
+  SearchComponent,
+  SearchConfirmationDialog,
 }

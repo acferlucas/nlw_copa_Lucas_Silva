@@ -13,15 +13,18 @@ export interface Tournament {
 
 interface TournamentProps {
   tournament: Tournament
+  onPress?: () => void
 }
 
 export default function PollTournament({
   tournament,
+  onPress,
 }: TournamentProps): JSX.Element {
   return (
     <li
+      onClick={onPress || undefined}
       key={tournament.id}
-      className="w-full h-36 bg-gray-800 p-4 flex items-center border-b-8 border-ignite-white rounded-b cursor-pointer text-white gap-2"
+      className="w-full h-36 bg-gray-800 p-4 flex items-center border-b-8 border-ignite-white rounded-b cursor-pointer text-white gap-2 mt-4"
     >
       <span className="h-full">
         <Trophy size={82} color={'#F7DD43'} />

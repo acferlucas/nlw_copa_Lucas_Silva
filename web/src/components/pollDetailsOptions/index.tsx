@@ -7,6 +7,7 @@ import { HomeMenuModal, SearchTournamentModal } from '../Modal'
 interface PollDetailsOptionsProps {
   pollId: string
   tournamentId: string | null
+  tournamentConfirm: () => void
   menuOption: 'poll' | 'ranking'
 }
 
@@ -40,15 +41,24 @@ export default function PollDetailsOptions({
   menuOption,
   pollId,
   tournamentId,
+  tournamentConfirm,
 }: PollDetailsOptionsProps): JSX.Element {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false)
   const [games, setGames] = useState<PollGame[]>([])
+
+  const [tournament, setTournament] = useState(() => {
+    if (!tournamentId) {
+      return ''
+    }
+
+    return String(tournamentId)
+  })
 
   const handlerLoadGames = useCallback(async () => {
     try {
       const { token } = JSON.parse(localStorage.getItem('@token') as string)
 
-      const { data } = await api.get(`/poll/${pollId}/games/${tournamentId}`, {
+      const { data } = await api.get(`/poll/${pollId}/games/${tournament}`, {
         headers: {
           Authorization: 'Bearer ' + token,
         },
@@ -58,14 +68,16 @@ export default function PollDetailsOptions({
     } catch (err: any) {
       console.log(err)
     }
-  }, [pollId, tournamentId])
+  }, [pollId, tournament])
 
   useEffect(() => {
-    handlerLoadGames()
-  }, [handlerLoadGames])
+    if (tournament) {
+      handlerLoadGames()
+    }
+  }, [handlerLoadGames, tournament])
 
-  function handlerGuessConfirm(): void {
-    handlerLoadGames()
+  function handlerCloseModal() {
+    setIsSearchModalOpen(false)
   }
 
   if (menuOption === 'poll') {
@@ -77,7 +89,7 @@ export default function PollDetailsOptions({
               key={game.id}
               game={game}
               pollId={pollId}
-              onGuessConfirm={handlerGuessConfirm}
+              onGuessConfirm={() => handlerLoadGames()}
             />
           ))
         ) : (
@@ -93,9 +105,16 @@ export default function PollDetailsOptions({
             </h1>
             <HomeMenuModal
               isOpen={isSearchModalOpen}
-              onCloseModal={() => setIsSearchModalOpen(false)}
+              onCloseModal={handlerCloseModal}
             >
-              <SearchTournamentModal />
+              <SearchTournamentModal
+                pollId={pollId}
+                onTournamentConfirm={(id: string) => {
+                  setTournament(id)
+                  tournamentConfirm()
+                  handlerCloseModal()
+                }}
+              />
             </HomeMenuModal>
           </>
         )}
