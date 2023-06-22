@@ -172,7 +172,12 @@ export default function HomeContent(): JSX.Element {
         isOpen={isSearchModalOpen}
         onCloseModal={() => setIsSearchModalOpen(false)}
       >
-        <SearchPollComponent />
+        <SearchPollComponent
+          onJoinPollConfirm={() => {
+            loadFeed()
+            setIsSearchModalOpen(false)
+          }}
+        />
       </HomeMenuModal>
 
       <HomeMenuModal

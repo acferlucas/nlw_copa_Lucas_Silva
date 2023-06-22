@@ -10,6 +10,7 @@ import Paginated from './paginate'
 import ParticipantsWrapper from './participantSWrapper'
 import Game from './game'
 import Participant from './participant'
+import RankingCard from './rankingCard'
 import {
   AuthenticationModal,
   SearchPollComponent,
@@ -48,4 +49,5 @@ export {
   PollTournament,
   SearchComponent,
   SearchConfirmationDialog,
+  RankingCard,
 }

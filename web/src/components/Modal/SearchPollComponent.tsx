@@ -5,7 +5,13 @@ import { api } from '../../lib/axios'
 import SearchComponent from '../searchComponent'
 import SearchConfirmationDialog from '../searchConfirmationDialog'
 
-export function SearchPollComponent(): JSX.Element {
+interface SearchPollComponentProps {
+  onJoinPollConfirm: () => void
+}
+
+export function SearchPollComponent({
+  onJoinPollConfirm,
+}: SearchPollComponentProps): JSX.Element {
   const [input, setInput] = useState('')
   const [searchedpolls, setSearchedPolls] = useState<FeedPoll[]>([])
   const [selectedPoll, setSelectedPoll] = useState<FeedPoll | null>(null)
@@ -37,7 +43,7 @@ export function SearchPollComponent(): JSX.Element {
       )
 
       alert('joined successfully')
-      window.location.reload()
+      onJoinPollConfirm()
     } catch (err) {
       alert(err)
     }
